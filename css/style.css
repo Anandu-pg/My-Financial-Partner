@@ -566,6 +566,14 @@ select.form-control { cursor: pointer; }
   pointer-events: none;
 }
 
+/* ── Two-column page layout (income / expenses / salary) ── */
+.two-col-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 24px;
+  align-items: start;
+}
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1257,61 +1265,9 @@ tr:hover td { background: var(--bg-hover); }
   position: fixed; inset: 0;
   background: rgba(0,0,0,.5);
   z-index: 99;
-}
-
-/* ── Responsive ────────────────────────────────────────── */
-@media (max-width: 1024px) {
-  :root { --sidebar-w: 220px; }
-}
-
-@media (max-width: 768px) {
-  /* Dashboard bottom grid → single column */
-  #bottomGrid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .sidebar {
-    transform: translateX(-100%);
-    width: 260px;
-  }
-
-  .sidebar.open { transform: translateX(0); }
-  .sidebar-overlay { display: block; }
-  .sidebar-overlay.open { opacity: 1; pointer-events: auto; }
-
-  .main-content {
-    margin-left: 0;
-    padding-bottom: var(--bottom-nav-h);
-  }
-
-  .bottom-nav { display: flex; }
-
-  .page-header { padding: 0 16px; }
-  .page-body   { padding: 16px; }
-
-  .chart-grid { grid-template-columns: 1fr; }
-  .form-row   { grid-template-columns: 1fr; }
-
-  .filter-bar {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .filter-bar .form-control { min-width: unset; }
-
-  .stat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-  .stat-card { padding: 16px; }
-  .stat-value{ font-size: 1.25rem; }
-  .balance-card .stat-value { font-size: 1.6rem; }
-}
-
-@media (max-width: 480px) {
-  .stat-grid { grid-template-columns: 1fr; }
-  .auth-card { padding: 28px 22px; }
-  .goals-grid { grid-template-columns: 1fr; }
-  .modal { max-width: 100%; margin: 0; border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
-  .modal-overlay { align-items: flex-end; padding: 0; }
-  .page-title { font-size: .95rem; }
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
 }
 
 /* ── Hamburger menu btn ────────────────────────────────── */
@@ -1326,10 +1282,7 @@ tr:hover td { background: var(--bg-hover); }
   cursor: pointer;
   color: var(--text-secondary);
   margin-right: 10px;
-}
-
-@media (max-width: 768px) {
-  .menu-toggle { display: flex; }
+  flex-shrink: 0;
 }
 
 /* ── Index / Landing ────────────────────────────────────── */
@@ -1349,10 +1302,15 @@ tr:hover td { background: var(--bg-hover); }
   padding: 4px;
   border-radius: var(--radius-md);
   margin-bottom: 24px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
+.report-tabs::-webkit-scrollbar { display: none; }
 
 .report-tab {
   flex: 1;
+  min-width: max-content;
   padding: 8px 14px;
   border-radius: calc(var(--radius-md) - 2px);
   font-size: .83rem;
@@ -1363,6 +1321,7 @@ tr:hover td { background: var(--bg-hover); }
   text-align: center;
   border: none;
   background: transparent;
+  white-space: nowrap;
 }
 
 .report-tab.active {
@@ -1411,3 +1370,219 @@ tr:hover td { background: var(--bg-hover); }
 .dropdown-item:hover { background: var(--bg-hover); color: var(--text-primary); }
 .dropdown-item.danger { color: var(--danger); }
 .dropdown-item svg { width: 15px; height: 15px; }
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE – Tablet  (≤1024px)
+══════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 220px; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE – Mobile  (≤768px)
+══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── Sidebar: hidden by default, slides in on toggle ── */
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+    z-index: 200;
+  }
+  .sidebar.open  { transform: translateX(0); box-shadow: var(--shadow-lg); }
+  .sidebar-overlay { display: block; }
+  .sidebar-overlay.open { opacity: 1; pointer-events: auto; }
+  .menu-toggle { display: flex; }
+
+  /* ── Main: no left margin, add bottom padding for nav ── */
+  .main-content {
+    margin-left: 0 !important;
+    padding-bottom: calc(var(--bottom-nav-h) + 8px);
+  }
+
+  /* ── Show bottom navigation ── */
+  .bottom-nav { display: flex; }
+
+  /* ── Page header: compact ── */
+  .page-header {
+    padding: 0 14px;
+    height: 56px;
+  }
+  .page-title { font-size: .95rem; }
+
+  /* ── Page body: tighter padding ── */
+  .page-body { padding: 14px; }
+
+  /* ── Dashboard bottom grid ── */
+  #bottomGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Two-column page layouts (income / expenses / salary) ── */
+  .two-col-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Budget stats: 3 cols → 1 col ── */
+  #budgetStats {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Stat grid: 2 cols on mobile ── */
+  .stat-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .stat-card   { padding: 14px; }
+  .stat-value  { font-size: 1.15rem; }
+  .stat-label  { font-size: .68rem; }
+  .balance-card .stat-value { font-size: 1.4rem; }
+
+  /* ── Charts ── */
+  .chart-grid { grid-template-columns: 1fr; gap: 14px; }
+  .chart-container { height: 220px !important; }
+
+  /* ── Forms ── */
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+
+  /* ── Filter bar ── */
+  .filter-bar {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+  .filter-bar .form-control,
+  .filter-bar .search-wrap { width: 100%; min-width: unset; flex: unset; }
+  .filter-bar .btn { width: 100%; justify-content: center; }
+  #clearFilters { display: none; } /* hide clear btn – use individual resets */
+
+  /* ── Section header stacks on small ── */
+  .section-header { flex-wrap: wrap; gap: 8px; }
+
+  /* ── Dashboard quick action btns ── */
+  .page-body > div > .d-flex.gap-8 {
+    width: 100%;
+  }
+  .page-body > div > .d-flex.gap-8 .btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* ── Cards ── */
+  .card-header { padding: 14px 16px 12px; }
+  .card-body   { padding: 14px 16px; }
+
+  /* ── Tables: horizontal scroll ── */
+  .table-wrapper { border-radius: var(--radius-md); }
+  table { font-size: .78rem; min-width: 520px; }
+  th, td { padding: 10px 12px; }
+
+  /* ── Goals grid ── */
+  .goals-grid { grid-template-columns: 1fr; gap: 14px; }
+
+  /* ── Month selector ── */
+  .month-selector { justify-content: center; }
+
+  /* ── Report tabs: scroll horizontally ── */
+  .report-tabs { gap: 4px; padding: 4px; }
+  .report-tab  { padding: 7px 10px; font-size: .76rem; }
+
+  /* ── Modal: slide up from bottom ── */
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    max-height: 92vh;
+  }
+
+  /* ── PIN inputs: smaller on mobile ── */
+  .pin-digit {
+    width: 52px;
+    height: 58px;
+    font-size: 1.3rem;
+  }
+
+  /* ── Auth card ── */
+  .auth-card { padding: 28px 18px; }
+
+  /* ── Toast ── */
+  .toast-container {
+    top: auto;
+    bottom: calc(var(--bottom-nav-h) + 12px);
+    right: 12px;
+    left: 12px;
+    max-width: 100%;
+  }
+
+  /* ── Pagination ── */
+  #pagination { flex-wrap: wrap; gap: 6px; }
+
+  /* ── Budget item header stacks ── */
+  .budget-item-header { flex-wrap: wrap; gap: 8px; }
+
+  /* ── User card in sidebar ── */
+  .user-card { padding: 10px; }
+
+  /* ── Salary history table wrapper ── */
+  #salaryHistory .table-wrapper { border-radius: var(--radius-md); }
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE – Small Mobile  (≤480px)
+══════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+
+  /* ── Stat grid: 1 column ── */
+  .stat-grid { grid-template-columns: 1fr; }
+
+  /* ── Tighter page padding ── */
+  .page-body { padding: 12px; }
+
+  /* ── Balance card ── */
+  .balance-card .stat-value { font-size: 1.3rem; }
+
+  /* ── Bottom nav labels hidden, more icon room ── */
+  .bottom-nav-item span { display: none; }
+  .bottom-nav-item { gap: 0; }
+  .bottom-nav-item svg { width: 24px; height: 24px; }
+
+  /* ── FAB button slightly bigger ── */
+  .fab-btn { width: 52px; height: 52px; margin-top: -26px; }
+  .fab-btn svg { width: 24px; height: 24px; }
+
+  /* ── PIN inputs ── */
+  .pin-digit { width: 46px; height: 54px; font-size: 1.2rem; }
+  .pin-input-row { gap: 8px; }
+
+  /* ── Auth card ── */
+  .auth-card { padding: 24px 16px; }
+  .auth-title { font-size: 1.3rem; }
+
+  /* ── Cards ── */
+  .card-body { padding: 12px 14px; }
+
+  /* ── Dashboard quick actions ── */
+  #quickAddIncome, #quickAddExpense { font-size: .75rem; padding: 7px 12px; }
+
+  /* ── Section header ── */
+  .section-title { font-size: .9rem; }
+
+  /* ── Filter bar hide extra filters, keep search ── */
+  #typeFilter, #categoryFilter, #dateFrom, #dateTo { display: none; }
+
+  /* ── Goals grid ── */
+  .goal-card { padding: 18px 16px; }
+
+  /* ── Budget items ── */
+  .budget-item { padding: 14px 16px; }
+
+  /* ── Reports chart height ── */
+  .chart-container { height: 200px !important; }
+
+  /* ── Modal ── */
+  .modal-header { padding: 18px 18px 14px; }
+  .modal-body   { padding: 16px 18px; }
+  .modal-footer { padding: 12px 18px 18px; }
+}
