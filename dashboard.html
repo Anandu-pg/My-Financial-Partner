@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – My Financial Partner</title>
+  <meta name="description" content="Your financial overview – balance, income, expenses and savings at a glance." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- Sidebar overlay (mobile) -->
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <header class="page-header" id="pageHeader"></header>
+
+      <div class="page-body">
+        <!-- Month selector + quick actions -->
+        <div class="d-flex align-center justify-between mb-24" style="flex-wrap:wrap;gap:12px">
+          <div id="monthSelectorWrap"></div>
+          <div class="d-flex gap-8">
+            <a href="income.html" class="btn btn-primary btn-sm" id="quickAddIncome">
+              <i data-lucide="plus"></i> Add Income
+            </a>
+            <a href="expenses.html" class="btn btn-secondary btn-sm" id="quickAddExpense">
+              <i data-lucide="minus"></i> Add Expense
+            </a>
+          </div>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="stat-grid stagger" id="statGrid">
+          <!-- Skeleton placeholders -->
+          <div class="stat-card" style="--stat-color:#10b981;--stat-bg:#ecfdf5">
+            <div class="skeleton" style="width:46px;height:46px;border-radius:10px"></div>
+            <div style="flex:1">
+              <div class="skeleton mb-0" style="width:80px;height:10px;margin-bottom:8px"></div>
+              <div class="skeleton" style="width:120px;height:24px"></div>
+            </div>
+          </div>
+          <div class="stat-card" style="--stat-color:#3b82f6;--stat-bg:#dbeafe">
+            <div class="skeleton" style="width:46px;height:46px;border-radius:10px"></div>
+            <div style="flex:1">
+              <div class="skeleton mb-0" style="width:80px;height:10px;margin-bottom:8px"></div>
+              <div class="skeleton" style="width:120px;height:24px"></div>
+            </div>
+          </div>
+          <div class="stat-card" style="--stat-color:#ef4444;--stat-bg:#fee2e2">
+            <div class="skeleton" style="width:46px;height:46px;border-radius:10px"></div>
+            <div style="flex:1">
+              <div class="skeleton mb-0" style="width:80px;height:10px;margin-bottom:8px"></div>
+              <div class="skeleton" style="width:120px;height:24px"></div>
+            </div>
+          </div>
+          <div class="stat-card" style="--stat-color:#8b5cf6;--stat-bg:#ede9fe">
+            <div class="skeleton" style="width:46px;height:46px;border-radius:10px"></div>
+            <div style="flex:1">
+              <div class="skeleton mb-0" style="width:80px;height:10px;margin-bottom:8px"></div>
+              <div class="skeleton" style="width:120px;height:24px"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts row -->
+        <div class="chart-grid mb-24">
+          <!-- Income vs Expenses bar chart -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title"><i data-lucide="bar-chart-2"></i> Income vs Expenses (6 months)</span>
+            </div>
+            <div class="card-body">
+              <div class="chart-container" id="trendChartWrap">
+                <canvas id="trendChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Expense pie chart -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title"><i data-lucide="pie-chart"></i> Expenses by Category</span>
+            </div>
+            <div class="card-body">
+              <div class="chart-container" id="pieChartWrap" style="height:220px">
+                <canvas id="pieChart"></canvas>
+              </div>
+              <div id="pieLegend" style="margin-top:12px"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom row: Recent transactions + Budget alerts + Savings -->
+        <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:18px" id="bottomGrid">
+
+          <!-- Recent Transactions -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title"><i data-lucide="clock"></i> Recent Transactions</span>
+              <a href="transactions.html" class="btn btn-ghost btn-sm">View all</a>
+            </div>
+            <div id="recentTransactions">
+              <div class="loading-overlay"><div class="spinner"></div><span>Loading…</span></div>
+            </div>
+          </div>
+
+          <!-- Budget & Savings side panel -->
+          <div style="display:flex;flex-direction:column;gap:18px">
+
+            <!-- Budget Usage -->
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title"><i data-lucide="target"></i> Budget Status</span>
+                <a href="budgets.html" class="btn btn-ghost btn-sm">Manage</a>
+              </div>
+              <div class="card-body" id="budgetSummary">
+                <div class="loading-overlay" style="padding:20px"><div class="spinner"></div></div>
+              </div>
+            </div>
+
+            <!-- Savings Goals -->
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title"><i data-lucide="piggy-bank"></i> Savings Goals</span>
+                <a href="savings.html" class="btn btn-ghost btn-sm">View all</a>
+              </div>
+              <div class="card-body" id="savingsSummary">
+                <div class="loading-overlay" style="padding:20px"><div class="spinner"></div></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /page-body -->
+    </main>
+  </div>
+
+  <!-- Bottom nav (mobile) -->
+  <nav class="bottom-nav" id="bottomNav"></nav>
+
+  <!-- Toast container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    if (!requireAuth()) { /* redirected */ }
+    else {
+      lucide.createIcons();
+      initPage('Dashboard');
+      initDashboard();
+    }
+  </script>
+</body>
+</html>

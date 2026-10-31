@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Salary – My Financial Partner</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+
+        <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:24px;align-items:start">
+
+          <!-- Salary Setup Card -->
+          <div class="card animate-fade">
+            <div class="card-header">
+              <span class="card-title"><i data-lucide="briefcase"></i> Salary Setup</span>
+            </div>
+            <div class="card-body">
+              <div style="margin-bottom:18px">
+                <div id="monthSelectorWrap"></div>
+              </div>
+
+              <!-- Current month salary status -->
+              <div id="salaryStatus" style="margin-bottom:18px"></div>
+
+              <!-- Set salary form -->
+              <form id="salaryForm" novalidate>
+                <div class="form-group">
+                  <label class="form-label">Expected Salary (₹) *</label>
+                  <div class="input-group">
+                    <span class="input-prefix">₹</span>
+                    <input id="salExpected" type="number" class="form-control" placeholder="Monthly salary amount" min="1" required />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Expected Date</label>
+                  <input id="salExpectedDate" type="date" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Notes</label>
+                  <input id="salNotes" type="text" class="form-control" placeholder="Optional notes" />
+                </div>
+                <button id="salSetBtn" type="submit" class="btn btn-primary w-100 mb-16">
+                  <i data-lucide="save"></i> Set Expected Salary
+                </button>
+              </form>
+
+              <!-- Mark as received form (shown when salary is pending) -->
+              <div id="markReceivedSection" style="display:none;border-top:1px solid var(--border);padding-top:18px">
+                <h3 style="font-size:.9rem;font-weight:700;margin-bottom:14px;color:var(--success)">
+                  <i data-lucide="check-circle" style="width:16px;height:16px;vertical-align:-3px"></i>
+                  Mark as Received
+                </h3>
+                <div class="form-group">
+                  <label class="form-label">Received Amount (₹)</label>
+                  <div class="input-group">
+                    <span class="input-prefix">₹</span>
+                    <input id="salReceived" type="number" class="form-control" placeholder="Actual received amount" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Received Date</label>
+                  <input id="salReceivedDate" type="date" class="form-control" />
+                </div>
+                <button id="markReceivedBtn" class="btn btn-primary w-100" onclick="handleMarkReceived()">
+                  <i data-lucide="check"></i> Mark Salary as Received
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Salary History -->
+          <div>
+            <div class="section-header">
+              <h2 class="section-title">Salary History</h2>
+              <select id="yearFilter" class="form-control" style="width:auto">
+                <option>2026</option>
+                <option>2025</option>
+                <option>2024</option>
+              </select>
+            </div>
+            <div id="salaryHistory">
+              <div class="loading-overlay"><div class="spinner"></div><span>Loading…</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <nav class="bottom-nav" id="bottomNav"></nav>
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/salary.js"></script>
+  <script>
+    if (!requireAuth()) { /* redirected */ }
+    else {
+      lucide.createIcons();
+      initPage('Salary');
+      initSalaryPage();
+    }
+  </script>
+</body>
+</html>

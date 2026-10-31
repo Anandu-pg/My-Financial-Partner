@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register – My Financial Partner</title>
+  <meta name="description" content="Create a free account on My Financial Partner and start tracking your finances." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="auth-page">
+    <!-- Theme toggle -->
+    <button class="theme-toggle" id="themeToggle"
+      style="position:fixed;top:20px;right:20px;z-index:10"
+      title="Toggle theme">
+      <i data-lucide="moon"></i>
+    </button>
+
+    <div class="auth-card animate-fade" style="max-width:460px">
+      <!-- Brand -->
+      <div class="auth-logo">
+        <div class="auth-brand-icon">
+          <i data-lucide="wallet"></i>
+        </div>
+        <h1 class="auth-title">Create Account</h1>
+        <p class="auth-subtitle">Join My Financial Partner for free</p>
+      </div>
+
+      <!-- Global error / info -->
+      <div id="globalError" class="form-error"
+        style="display:none;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);
+               border-radius:8px;padding:10px 14px;margin-bottom:18px;color:#ef4444;font-size:.82rem">
+        <i data-lucide="alert-circle" style="width:15px;height:15px;flex-shrink:0"></i>
+        <span></span>
+      </div>
+
+      <!-- Form -->
+      <form id="registerForm" novalidate autocomplete="off">
+
+        <!-- Username -->
+        <div class="form-group">
+          <label class="form-label" for="username">Username</label>
+          <div class="input-group">
+            <i data-lucide="user" class="input-prefix" style="width:16px;height:16px"></i>
+            <input
+              id="username"
+              type="text"
+              class="form-control"
+              placeholder="Choose a unique username"
+              autocomplete="off"
+              maxlength="30"
+              required
+            />
+          </div>
+          <div id="usernameError" class="form-error" style="display:none">
+            <i data-lucide="alert-circle" style="width:13px;height:13px"></i>
+            <span></span>
+          </div>
+          <div id="usernameStatus"
+            style="font-size:.75rem;margin-top:5px;min-height:16px;transition:color .2s"></div>
+        </div>
+
+        <!-- PIN -->
+        <div class="form-group">
+          <label class="form-label">4-Digit PIN</label>
+          <div id="pinRow" class="pin-input-row">
+            <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="PIN digit 1" />
+            <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="PIN digit 2" />
+            <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="PIN digit 3" />
+            <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="PIN digit 4" />
+          </div>
+        </div>
+
+        <!-- Confirm PIN -->
+        <div class="form-group">
+          <label class="form-label">Confirm PIN</label>
+          <div id="confirmPinRow" class="pin-input-row">
+            <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Confirm PIN digit 1" />
+            <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Confirm PIN digit 2" />
+            <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Confirm PIN digit 3" />
+            <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Confirm PIN digit 4" />
+          </div>
+        </div>
+
+        <!-- Terms note -->
+        <p style="font-size:.72rem;color:rgba(255,255,255,.3);margin-bottom:18px;line-height:1.5">
+          By creating an account you agree that your data will be stored
+          securely in your own Google Sheets. Your PIN is hashed and never
+          stored in plain text.
+        </p>
+
+        <!-- Submit -->
+        <button id="registerBtn" type="submit" class="btn btn-primary w-100 btn-lg">
+          <i data-lucide="user-plus"></i> Create Account
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account?
+        <a href="login.html">Sign in</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    lucide.createIcons();
+    initRegisterPage();
+  </script>
+</body>
+</html>

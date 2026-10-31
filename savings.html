@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Savings Goals – My Financial Partner</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+
+        <div class="section-header mb-24">
+          <h2 class="section-title">My Savings Goals</h2>
+          <button class="btn btn-primary" onclick="openCreateGoalModal()">
+            <i data-lucide="plus"></i> New Goal
+          </button>
+        </div>
+
+        <!-- Goals grid -->
+        <div id="goalsGrid">
+          <div class="loading-overlay"><div class="spinner"></div><span>Loading goals…</span></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <nav class="bottom-nav" id="bottomNav"></nav>
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Create Goal Modal -->
+  <div class="modal-overlay" id="createGoalModal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title">Create Savings Goal</span>
+        <button class="modal-close" onclick="closeModal('createGoalModal')">
+          <i data-lucide="x" style="width:16px;height:16px"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Goal Name *</label>
+          <input id="goalName" type="text" class="form-control" placeholder="e.g. Emergency Fund, New Laptop…" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Target Amount (₹) *</label>
+            <div class="input-group">
+              <span class="input-prefix">₹</span>
+              <input id="goalTarget" type="number" class="form-control" placeholder="50000" min="1" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Already Saved (₹)</label>
+            <div class="input-group">
+              <span class="input-prefix">₹</span>
+              <input id="goalSaved" type="number" class="form-control" placeholder="0" min="0" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Target Date</label>
+          <input id="goalDate" type="date" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notes</label>
+          <textarea id="goalNotes" class="form-control" rows="2" placeholder="Optional description…"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('createGoalModal')">Cancel</button>
+        <button class="btn btn-primary" id="createGoalBtn" onclick="handleCreateGoal()">
+          <i data-lucide="piggy-bank"></i> Create Goal
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contribute Modal -->
+  <div class="modal-overlay" id="contributeModal">
+    <div class="modal" style="max-width:400px">
+      <div class="modal-header">
+        <span class="modal-title">Add Contribution</span>
+        <button class="modal-close" onclick="closeModal('contributeModal')">
+          <i data-lucide="x" style="width:16px;height:16px"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="contributeGoalName" style="font-size:.9rem;font-weight:700;margin-bottom:16px;color:var(--primary)"></p>
+        <div class="form-group">
+          <label class="form-label">Contribution Amount (₹) *</label>
+          <div class="input-group">
+            <span class="input-prefix">₹</span>
+            <input id="contributeAmount" type="number" class="form-control" placeholder="Enter amount" min="1" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notes</label>
+          <input id="contributeNotes" type="text" class="form-control" placeholder="Optional note" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('contributeModal')">Cancel</button>
+        <button class="btn btn-primary" id="contributeBtn" onclick="handleContribute()">
+          <i data-lucide="plus"></i> Add Contribution
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <input type="hidden" id="activeGoalId" />
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/savings.js"></script>
+  <script>
+    if (!requireAuth()) { /* redirected */ }
+    else {
+      lucide.createIcons();
+      initPage('Savings Goals');
+      initSavingsPage();
+    }
+  </script>
+</body>
+</html>

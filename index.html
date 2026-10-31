@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Financial Partner – Personal Money Manager</title>
+  <meta name="description" content="Track income, expenses, budgets and savings goals with My Financial Partner." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <script>
+    // Redirect instantly based on session
+    const token = sessionStorage.getItem('mfp_token');
+    if (token) {
+      window.location.replace('dashboard.html');
+    } else {
+      window.location.replace('login.html');
+    }
+  </script>
+</head>
+<body>
+  <div class="landing-page">
+    <div class="spinner" style="width:48px;height:48px;border-width:4px;border-top-color:#10b981;border-color:#1e293b;border-top-color:#10b981"></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="96" fill="url(#grad)"/>
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <!-- Wallet body -->
+  <rect x="96" y="176" width="320" height="220" rx="28" fill="white" fill-opacity="0.18"/>
+  <rect x="96" y="200" width="320" height="196" rx="24" stroke="white" stroke-width="18" fill="none"/>
+  <!-- Wallet flap / top bar -->
+  <rect x="96" y="176" width="320" height="56" rx="20" fill="white" fill-opacity="0.28"/>
+  <!-- Coin slot -->
+  <rect x="328" y="268" width="72" height="60" rx="30" fill="white" fill-opacity="0.9"/>
+  <!-- Dollar sign -->
+  <text x="364" y="308" font-family="Arial, sans-serif" font-weight="900" font-size="36" fill="#059669" text-anchor="middle">₹</text>
+  <!-- Rising arrow lines -->
+  <polyline points="136,310 180,268 220,290 270,240" stroke="white" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.85"/>
+  <polygon points="270,240 298,232 290,260" fill="white" opacity="0.85"/>
+</svg>
